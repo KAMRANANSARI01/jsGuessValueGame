@@ -1,4 +1,4 @@
-const randomNumber = parseInt(Math.random()*100 +1)
+let randomNumber = parseInt(Math.random()*100 +1)
 // console.log(randomNumber)
 let submitBtn = document.querySelector('#submit')
 let guessSlot = document.querySelector('.preGuess')
@@ -15,11 +15,12 @@ let chance = 1;
 
 
 if (playGame){
-    submitBtn.addEventListener('click', function(e){
-         e.preventDefault();
-         let guess = parseInt(userInput.value);
-         console.log(guess);
-         checkValidation(guess);
+
+    submitBtn.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const guess = parseInt(userInput.value);
+        console.log(guess)
+        checkValidation(guess)
     })
 }
 const checkValidation = (guess)=>{
@@ -31,7 +32,7 @@ const checkValidation = (guess)=>{
         alert("Please Enter a number less than 100")
     }else{
         preGuesses.push(guess);
-        if(chance===11){
+        if(chance===10){
             endGame()
             cleanUpGuess(guess)
             displayMessage(`Game Over. Random Number was ${randomNumber}`)
@@ -44,7 +45,7 @@ const checkValidation = (guess)=>{
 
 const checkGuess =(guess)=>{
     if(guess===randomNumber){
-        displayMessage('Congrats,you guesssed it right.')
+        displayMessage('Congratulation, you guesssed the right number')
         endGame()
     } else if(guess<randomNumber){
         displayMessage('Guessed number is smaller than the random number.')
@@ -54,13 +55,34 @@ const checkGuess =(guess)=>{
 }
 const cleanUpGuess=(guess)=>{
     userInput.value = '';
-    guessSlot.innerHTML += `${guess}`
+    guessSlot.innerHTML += `${guess}, `
     chance++
-    remainingChance.innerHTML=(`${11-chance}`)
-
+    remainingChance.innerHTML=`${11-chance}`
+   
+    
 }
 const displayMessage=(message)=>{
-    LoOrHi.innerHTML=`${message}`
+    LoOrHi.innerHTML=`<h2>${message}</h2>`
 }
-const endGame = ()=>{}
-const startGame = ()=>{}
+const endGame = ()=>{
+    userInput.value = ''
+    userInput.setAttribute('disabled','');
+    p.innerHTML=`<h2 id ='startGame' >Start New Game</h2>`;
+     startOver.appendChild(p)
+     playGame = false;
+     startGame()
+
+}
+const startGame = ()=>{
+    document.querySelector("#startGame").addEventListener('click',function(){
+        userInput.removeAttribute('disabled');
+        preGuesses = [];
+        chance = 1;
+        randomNumber = parseInt(Math.random()*100 +1);
+        guessSlot.innerHTML = ''
+        remainingChance.innerHTML=`${11-chance}`
+        startOver.removeChild(p);
+        playGame = true;
+        displayMessage('')
+    })
+}

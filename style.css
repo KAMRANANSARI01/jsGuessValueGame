@@ -24,6 +24,10 @@ body{
     background-color: black;
     padding: 5px 10px;
 }
+#wrapper p{
+    font-size: 22px;
+    font-weight: 700;
+}
 .form{
     display: flex;
     flex-direction: column;
